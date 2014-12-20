@@ -78,7 +78,7 @@ public class Schema308Tube {
 		try {
 			Oracle308Tube oracle308Tube=new Oracle308Tube();
 			conn=oracle308Tube.getConnection();
-			query=conn.prepareStatement("insert into PC_PARTS (PC_PARTS_CODE,PC_PARTS_AVAIL,PC_PARTS_MAKER,PC_PARTS_TITLE,PC_PARTS_DESC) values (?,?,?,?,?)");
+			query=conn.prepareStatement("insert into \"SYS\".\"PC_PARTS\" (PC_PARTS_CODE,PC_PARTS_AVAIL,PC_PARTS_MAKER,PC_PARTS_TITLE,PC_PARTS_DESC) values (?,?,?,?,?)");
 			query.setString(1, code);
 			query.setInt(2, Integer.parseInt(avail));
 			query.setString(3, maker);
@@ -101,4 +101,46 @@ public class Schema308Tube {
 		return 200;
 	}
 	
+	public int updatePC_PARTS(int pk,int avail){	
+		try {
+			Oracle308Tube oracle308Tube=new Oracle308Tube();
+			conn=oracle308Tube.getConnection();
+			query=conn.prepareStatement("update PC_PARTS set PC_PARTS_AVAIL=? where PC_PARTS_PK=?");
+			query.setInt(1, avail);
+			query.setInt(2, pk);
+			query.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 500;
+		} finally{
+			try {
+				if (conn!=null)	conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return 200;
+	}
+
+	public int deletePC_PARTS(int pk,int avail){	
+		try {
+			Oracle308Tube oracle308Tube=new Oracle308Tube();
+			conn=oracle308Tube.getConnection();
+			query=conn.prepareStatement("delete from PC_PARTS where PC_PARTS_PK=?");
+			query.setInt(1, pk);
+			query.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 500;
+		} finally{
+			try {
+				if (conn!=null)	conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return 200;
+	}
+	
 }
+
